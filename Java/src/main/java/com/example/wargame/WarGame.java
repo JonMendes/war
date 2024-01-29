@@ -75,16 +75,54 @@ public class WarGame extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        // Desenha territórios com formas geométricas (exemplo)
-        gc.setFill(Color.BLUE);
-        gc.fillRect(50, 50, 100, 50);
-        gc.setFill(Color.GREEN);
-        gc.fillRect(200, 150, 120, 80);
+       // Desenha territórios com formas geométricas (exemplo)
+        //gc.setFill(Color.BLUE);
+        //gc.fillRect(50, 50, 100, 50);
+        //gc.setFill(Color.GREEN);
+        //gc.fillRect(200, 150, 120, 80);
 
         // Desenha linhas para representar conexões entre territórios
-        gc.setStroke(Color.BLACK);
-        gc.setLineWidth(2);
-        gc.strokeLine(100, 75, 220, 190);
+        //gc.setStroke(Color.BLACK);
+        //gc.setLineWidth(2);
+        //gc.strokeLine(100, 75, 220, 190);
+
+
+        //America do Norte
+        gc.setFill(Color.YELLOW);
+        gc.fillRect(40, 40, 30, 30);
+        gc.setFill(Color.BROWN);
+        gc.fillRect(70, 40, 30, 30);
+        gc.setFill(Color.LIGHTGOLDENRODYELLOW);
+        gc.fillRect(55, 70, 30, 30);
+        gc.setFill(Color.YELLOW);
+        gc.fillRect(85, 70, 30, 30);
+        gc.setFill(Color.YELLOWGREEN);
+        gc.fillRect(115, 70, 30, 30);
+        gc.setFill(Color.YELLOW);
+        gc.fillRect(120, 20, 30, 30);
+        gc.setFill(Color.BROWN);
+        gc.fillRect(70, 100, 30, 30);
+        gc.setFill(Color.GOLD);
+        gc.fillRect(100, 100, 30, 30);
+        gc.setFill(Color.YELLOW);
+        gc.fillRect(90, 130, 30, 30);
+
+        //America do Sul
+        gc.setFill(Color.RED);
+        gc.fillRect(120, 160, 30, 30);
+        gc.setFill(Color.DARKRED);
+        gc.fillRect(105, 190, 30, 30);
+        gc.setFill(Color.MEDIUMVIOLETRED);
+        gc.fillRect(105, 220, 30, 30);
+        gc.setFill(Color.ORANGERED);
+        gc.fillRect(135, 190, 30, 50);
+
+        gc.setFill(Color.BLUE);
+        gc.fillRect(170, 50, 10, 10);
+        gc.setFill(Color.DARKBLUE);
+        gc.fillRect(210, 30, 30, 30);
+        gc.setFill(Color.CADETBLUE);
+        gc.fillRect(190, 60, 20, 20);
 
         // Adicione mais desenhos conforme necessário
     }
