@@ -1,0 +1,86 @@
+#lang racket
+(define turno 1)
+(define p1 1)
+(define p2 0)
+(define p3 0)
+(define p4 0)
+(define beeg (list 1 1 0 0 0))
+;; (define (pass) (set!-values (turno p1 p2 p3 p4) (values (cond [(equal? turno 1)(2 0 1 0 0)]
+;;                                                               [(equal? turno 2)(3 0 0 1 0)]
+;;                                                               [(equal? turno 3)(4 0 0 0 1)]
+;;                                                               [(equal? turno 4)(1 1 0 0 0)]
+;;                                                               [else (1 1 0 0 0)]))))
+;;(define (up n)(set! x 30))
+(define (pass) (cond [(equal? turno 1)(set!-values (turno p1 p2 p3 p4) (values 2 0 1 0 0))]
+                     [(equal? turno 2)(set!-values (turno p1 p2 p3 p4) (values 3 0 0 1 0))]
+                     [(equal? turno 3)(set!-values (turno p1 p2 p3 p4) (values 4 0 0 0 1))]
+                     [(equal? turno 4)(set!-values (turno p1 p2 p3 p4) (values 1 1 0 0 0))]
+                     [else (set!-values (turno p1 p2 p3 p4) (values 1 1 0 0 0))]))
+(define (k) (list turno p1 p2 p3 p4))
+
+(define (pass2) (cond[(equal? (first beeg) 1)(set! beeg (list 2 0 1 0 0))]
+                     [(equal? (first beeg) 2)(set! beeg (list 3 0 0 1 0))]
+                     [(equal? (first beeg) 3)(set! beeg (list 4 0 0 0 1))]
+                     [(equal? (first beeg) 4)(set! beeg (list 1 1 0 0 0))]
+                     [else (set! beeg (list 1 1 0 0 0))]))
+(define (k2) beeg)
+
+(define players (list p1 p2 p3 p4))
+(define (p) (set! players (list p1 p2 p3 p4)))
+
+(define MAX_PLAYERS 6)
+(define num_of_players 2)
+(define phase 0)
+(define turn_of 0)
+
+(define (game-reset)(begin (set! phase 0)(set! turn_of 0))(displayln "Game reinitializing..."))
+(define (game-start n)(if (and (> n 1) (< n 6))
+                      (begin (displayln "Game starting...")
+                             (set! phase 1)(set! turn_of 1)(set! num_of_players n)
+
+                             )
+                      (displayln "You cannot start a game alone. =(")))
+
+(define alaska (list "alaska" (list "mackenzie" "vancouver" "vladivostok")))
+(define mackenzie (list "mackenzie", (list "alaska", "groenlandia", "ottawa", "vancouver")))
+(define groenlandia (list "groenlandia", (list "islandia", "labrador", "mackenzie")))
+(define vancouver (list "vancouver", (list "alaska", "california", "mackenzie", "ottawa")))
+(define ottawa (list "ottawa", (list "california", "labrador", "mackenzie", "nova_york", "vancouver")))
+(define labrador (list "labrador", (list "groenlandia", "nova_york", "ottawa")))
+(define california (list "california", (list "mexico", "nova_york", "vancouver")))
+(define nova_york (list "nova_york", (list "california", "labrador", "mexico", "ottawa")))
+(define mexico (list "mexico", (list "california", "nova_york", "venezuela")))
+(define venezuela (list "venezuela", (list "brasil", "mexico", "peru")))
+(define peru (list "peru", (list "argentina", "brasil", "venezuela")))
+(define brasil (list "brasil", (list "argelia", "argentina", "peru", "venezuela")))
+(define argentina (list "argentina", (list "brasil", "peru")))
+(define islandia (list "islandia", (list "groenlandia", "inglaterra")))
+(define inglaterra (list "inglaterra", (list "alemanha", "franca", "islandia")))
+(define suecia (list "suecia", (list "inglaterra" "moscou")))
+(define moscou (list "moscou", (list "aral", "omsk" "oriente_medio", "polonia", "suecia")))
+(define polonia (list "polonia", (list "alemanha" "egito", "franca", "moscou", "oriente_medio")))
+(define alemanha (list "alemanha", (list "franca" "inglaterra", "polonia")))
+(define franca (list "franca", (list "alemanha" "argelia", "egito", "inglaterra", "polonia")))
+(define argelia (list "argelia", (list "brasil", "congo", "egito", "franca", "sudao")))
+(define egito (list "egito" (list "argelia", "franca", "oriente_medio", "polonia", "sudao")))
+(define sudao (list "sudao" (list "africa_do_sul", "argelia", "congo", "egito", "madagascar")))
+(define congo (list "congo" (list "africa_do_sul", "argelia", "sudao")))
+(define africa_do_sul (list "africa_do_sul", (list "congo", "madagascar", "sudao")))
+(define madagascar (list "madagascar", (list "africa_do_sul", "sudao")))
+(define oriente_medio (list "oriente_medio", (list "aral", "egito", "india", "moscou", "polonia")))
+(define aral (list "aral" (list "china", "india", "moscou", "omsk", "oriente_medio")))
+(define omsk (list "omsk" (list "aral", "china", "dudinka", "mongolia")))
+(define dudinka (list "dudinka" (list "mongolia", "omsk", "tchita")))
+(define siberia (list "siberia" (list "dudinka", "tchita", "vladivostok")))
+(define tchita (list "china" (list "china", "dudinka", "mongolia", "siberia", "vladivostok")))
+(define vladivostok (list "vladivostok", (list "china", "japao", "siberia", "tchita")))
+(define japao (list "japao" (list "china", "vladivostok")))
+(define china (list "china" (list "aral", "india", "japao", "mongolia", "omsk", "tchita", "vietna", "vladivostok")))
+(define mongolia (list "mongolia" (list "china", "dudinka", "omsk", "tchita")))
+(define india (list "india" (list "aral" "china", "oriente_medio", "sumatra", "vietna")))
+(define vietna (list "vietna" (list "borneo" "china", "india")))
+(define borneo (list "borneo" (list "australia" "nova_guine" "vietna")))
+(define nova_guine (list "nova_guine" (list "australia" "borneo")))
+(define australia (list "australia", (list "borneo", "nova_guine", "sumatra")))
+(define sumatra (list "sumatra" (list "australia", "india")))
+                                                                                   
