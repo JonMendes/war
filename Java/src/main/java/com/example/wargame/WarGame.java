@@ -88,41 +88,139 @@ public class WarGame extends Application {
 
 
         //America do Norte
+        //Alasca
         gc.setFill(Color.YELLOW);
         gc.fillRect(40, 40, 30, 30);
+        //Mackenzie
         gc.setFill(Color.BROWN);
         gc.fillRect(70, 40, 30, 30);
+        //Vancouver
         gc.setFill(Color.LIGHTGOLDENRODYELLOW);
         gc.fillRect(55, 70, 30, 30);
+        //Ottawa
         gc.setFill(Color.YELLOW);
         gc.fillRect(85, 70, 30, 30);
+        //Labrador
         gc.setFill(Color.YELLOWGREEN);
         gc.fillRect(115, 70, 30, 30);
+        //Groelandia
         gc.setFill(Color.YELLOW);
         gc.fillRect(120, 20, 30, 30);
+        //California
         gc.setFill(Color.BROWN);
         gc.fillRect(70, 100, 30, 30);
+        //Nova York
         gc.setFill(Color.GOLD);
         gc.fillRect(100, 100, 30, 30);
+        //México
         gc.setFill(Color.YELLOW);
         gc.fillRect(90, 130, 30, 30);
 
         //America do Sul
+        //Venezuela
         gc.setFill(Color.RED);
         gc.fillRect(120, 160, 30, 30);
+        //Peru
         gc.setFill(Color.DARKRED);
         gc.fillRect(105, 190, 30, 30);
+        //Argentina
         gc.setFill(Color.MEDIUMVIOLETRED);
         gc.fillRect(105, 220, 30, 30);
+        //Brasil
         gc.setFill(Color.ORANGERED);
         gc.fillRect(135, 190, 30, 50);
 
+        //Europa
+        //Islandia
         gc.setFill(Color.BLUE);
         gc.fillRect(170, 50, 10, 10);
+        //Suecia
         gc.setFill(Color.DARKBLUE);
         gc.fillRect(210, 30, 30, 30);
+        //Inglaterra
         gc.setFill(Color.CADETBLUE);
         gc.fillRect(190, 60, 20, 20);
+        //Alemanha
+        gc.setFill(Color.BLUE);
+        gc.fillRect(210, 60, 10, 20);
+        //Polonia
+        gc.setFill(Color.DODGERBLUE);
+        gc.fillRect(220, 60, 20, 20);
+        //Moscou
+        gc.setFill(Color.BLUEVIOLET);
+        gc.fillRect(240, 30, 30, 40);
+
+        //Africa
+        //Argelia
+        gc.setFill(Color.PINK);
+        gc.fillRect(210, 130, 30, 30);
+        //Egito
+        gc.setFill(Color.DEEPPINK);
+        gc.fillRect(240, 120, 30, 20);
+        //Sudao
+        gc.setFill(Color.HOTPINK);
+        gc.fillRect(240, 140, 30, 20);
+        //Congo
+        gc.setFill(Color.DEEPPINK);
+        gc.fillRect(220, 160, 30, 30);
+        //Africa do Sul
+        gc.setFill(Color.PINK);
+        gc.fillRect(230, 190, 30, 30);
+        //Madagascar
+        gc.setFill(Color.HOTPINK);
+        gc.fillRect(260, 170, 10, 10);
+
+        //Asia
+        //Omsk
+        gc.setFill(Color.GREEN);
+        gc.fillRect(270, 30, 30, 30);
+        //Arai
+        gc.setFill(Color.DARKGREEN);
+        gc.fillRect(270, 60, 30, 30);
+        //Oriente Medio
+        gc.setFill(Color.LIGHTGREEN);
+        gc.fillRect(270, 90, 40, 30);
+        //India
+        gc.setFill(Color.GREEN);
+        gc.fillRect(300, 90, 30, 30);
+        //Vietna
+        gc.setFill(Color.DARKGREEN);
+        gc.fillRect(330, 90, 15, 35);
+        //China
+        gc.setFill(Color.LIGHTGREEN);
+        gc.fillRect(300, 60, 60, 30);
+        //Dudinka
+        gc.setFill(Color.DARKGREEN);
+        gc.fillRect(300, 20, 15, 40);
+        //Mongolia
+        gc.setFill(Color.GREEN);
+        gc.fillRect(315, 45, 45, 15);
+        //Tachita
+        gc.setFill(Color.LIGHTGREEN);
+        gc.fillRect(315, 30, 45, 15);
+        //Siberia
+        gc.setFill(Color.DARKGREEN);
+        gc.fillRect(315, 0, 45, 30);
+        //Vladivostok
+        gc.setFill(Color.GREENYELLOW);
+        gc.fillRect(360, 30, 50, 50);
+        //Japão
+        gc.setFill(Color.GREEN);
+        gc.fillRect(370, 90, 10, 30);
+
+        //Oceania
+        //Sumatra
+        gc.setFill(Color.ORANGE);
+        gc.fillRect(320, 160, 10, 30);
+        //Borneu
+        gc.setFill(Color.ORANGERED);
+        gc.fillRect(340, 160, 20, 20);
+        //Nova Guine
+        gc.setFill(Color.DARKORANGE);
+        gc.fillRect(370, 170, 30, 10);
+        //Australia
+        gc.setFill(Color.ORANGE);
+        gc.fillRect(340, 200, 40, 40);
 
         // Adicione mais desenhos conforme necessário
     }
