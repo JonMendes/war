@@ -11,6 +11,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import java.util.Random;
+import java.util.Comparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,12 +61,12 @@ public class WarGame extends Application {
 
     private void initializePlayers(int playerNumber) {
         players = new ArrayList<>();
-        players.add(new Player("Player 1"));
-        players.add(new Player("Player 2"));
+        players.add(new Player("Player 1", Color.RED));
+        players.add(new Player("Player 2",Color.YELLOW));
         if(playerNumber > 2)
-            players.add(new Player("Player 3"));
+            players.add(new Player("Player 3",Color.GREEN));
         if(playerNumber > 3)
-            players.add(new Player("Player 4"));
+            players.add(new Player("Player 4",Color.BLUE));
         currentPlayer = players.get(0);
     }
 
@@ -76,7 +78,7 @@ public class WarGame extends Application {
         canvas = new Canvas(1000, 500);
         grid.add(canvas, 0, 0);
 
-        playerInfoLabel = new Label("Current Player: " + currentPlayer.getName() + "\nArmies: 0");
+        playerInfoLabel = new Label("Current Player: " + currentPlayer.getName() + "\nArmies: " + currentPlayer.getArmies());
         grid.add(playerInfoLabel, 0, 1);
 
         Button drawButton = new Button("Draw Territories");
@@ -87,7 +89,7 @@ public class WarGame extends Application {
         TextField attackingTerritoryField = new TextField();
         TextField targetTerritoryField = new TextField();
         TextField armiesToAddField = new TextField();
-        TextField targetTerritoryToAddArmiesField = new TextField(); // New TextField for specifying the territory
+        TextField targetTerritoryToAddArmiesField = new TextField();
 
         attackingTerritoryField.setPromptText("Attacking Territory");
         targetTerritoryField.setPromptText("Target Territory");
@@ -97,20 +99,22 @@ public class WarGame extends Application {
         grid.add(attackingTerritoryField, 0, 3);
         grid.add(targetTerritoryField, 0, 4);
 
-
         // Button for confirming attack
         Button confirmAttackButton = new Button("Confirm Attack");
         confirmAttackButton.setOnAction(event -> {
             String attacking = attackingTerritoryField.getText();
             String target = targetTerritoryField.getText();
 
+            attackTerritory(attacking, target);
+
             // Use 'attacking' and 'target' as needed (e.g., print or process them)
             System.out.println("Attacking Territory: " + attacking);
             System.out.println("Target Territory: " + target);
+            drawMap();
+            updatePlayerInfoLabel();
         });
 
         grid.add(confirmAttackButton, 0, 5);
-
 
         grid.add(targetTerritoryToAddArmiesField, 0, 6);
         grid.add(armiesToAddField, 0, 7);
@@ -120,19 +124,36 @@ public class WarGame extends Application {
         confirmAddArmiesButton.setOnAction(event -> {
             String territoryToAddArmies = targetTerritoryToAddArmiesField.getText();
             int armiesToAdd = Integer.parseInt(armiesToAddField.getText());
+            addArmiesToTerritory(territoryToAddArmies, armiesToAdd);
 
-            // Use 'territoryToAddArmies' and 'armiesToAdd' as needed (e.g., print or process them)
             System.out.println("Territory to Add Armies: " + territoryToAddArmies);
             System.out.println("Armies to Add: " + armiesToAdd);
+            drawMap();
+            updatePlayerInfoLabel();
         });
 
         grid.add(confirmAddArmiesButton, 0, 8);
 
-        // Desenha o mapa inicial
-        drawMap();
+        // Button for passing
+        Button passButton = new Button("Pass");
+        passButton.setOnAction(event -> {
+            System.out.println(currentPlayer.getName() + " has passed.");
+            switchPlayer();
+            currentPlayer.addArmies(Collections.frequency(colors, currentPlayer.getColor())/2);
+            updatePlayerInfoLabel();
+        });
 
-        return new Scene(grid, 1000, 800);
+        grid.add(passButton, 0, 9);
+
+        drawMap();
+        updatePlayerInfoLabel();
+
+        return new Scene(grid, 1000, 850);
     }
+    private void updatePlayerInfoLabel() {
+        playerInfoLabel.setText("Current Player: " + currentPlayer.getName() + "\nArmies: " + currentPlayer.getArmies());
+    }
+
     private void drawMap() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -615,10 +636,6 @@ public class WarGame extends Application {
     private void drawTerritory() {
         while (!territories.isEmpty()) {
             String drawnTerritory = territories.remove(0);
-            currentPlayer.addArmies(armiesPerTurn);
-            showInformation("Territory Drawn", "Player: " + currentPlayer.getName() +
-                    "\nTerritory: " + drawnTerritory +
-                    "\nArmies: " + armiesPerTurn);
             armies.set(stateStringToInt(drawnTerritory),1);
             switch (currentPlayer.getName()) {
                 case "Player 1" -> colors.set(stateStringToInt(drawnTerritory), Color.RED);
@@ -912,6 +929,106 @@ public class WarGame extends Application {
         }
         return r;
     }
+    private void addArmiesToTerritory(String territory, int number)
+    {
+        if(currentPlayer.getColor() == colors.get(stateStringToInt(territory)))
+        {
+            if(currentPlayer.getArmies() >= number) {
+                armies.set(stateStringToInt(territory), armies.get(stateStringToInt(territory)) + number);
+                currentPlayer.addArmies(-number);
+            }
+            else {
+                System.out.println("Not enough armies");
+            }
+        }
+        else
+        {
+            System.out.println("Territory not in your possession");
+        }
+
+    }
+
+    private void attackTerritory(String attacker, String defender)
+    {
+        if (colors.get(stateStringToInt(attacker)) == currentPlayer.getColor() && colors.get(stateStringToInt(defender)) != currentPlayer.getColor()
+        && neighbours(attacker).contains(defender)) {
+            Random random = new Random();
+            ArrayList<Integer> attackDice = new ArrayList<>();
+            ArrayList<Integer> defenseDice = new ArrayList<>();
+            int defenseDiceN = 0;
+            int attackDiceN = 0;
+
+            if (armies.get(stateStringToInt(attacker))-1 > 0) {
+                attackDiceN = 1;
+                attackDice.add(random.nextInt(20) + 1);
+                if (armies.get(stateStringToInt(attacker))-1 >= 2) {
+                    attackDiceN = 2;
+                    attackDice.add(random.nextInt(20) + 1);
+                    if (armies.get(stateStringToInt(attacker))-1 >= 3) {
+                        attackDiceN = 3;
+                        attackDice.add(random.nextInt(20) + 1);
+                    }
+                }
+            }
+            else
+            {
+                System.out.println("Invalid attack");
+                return;
+            }
+
+            if (armies.get(stateStringToInt(defender)) > 0) {
+                defenseDiceN = 1;
+                defenseDice.add(random.nextInt(20) + 1);
+                if (armies.get(stateStringToInt(defender)) >= 2) {
+                    defenseDiceN = 2;
+                    defenseDice.add(random.nextInt(20) + 1);
+                    if (armies.get(stateStringToInt(defender)) >= 3) {
+                        defenseDiceN = 3;
+                        defenseDice.add(random.nextInt(20) + 1);
+                    }
+                }
+            }
+
+
+            attackDice.sort(Collections.reverseOrder());
+            defenseDice.sort(Collections.reverseOrder());
+
+            System.out.println("Attacker rolls: " + attackDice);
+            System.out.println("Defender rolls: " + defenseDice);
+
+
+            if (attackDice.get(0) <= defenseDice.get(0))
+                armies.set(stateStringToInt(attacker), armies.get(stateStringToInt(attacker)) - 1);
+            else
+                armies.set(stateStringToInt(defender), armies.get(stateStringToInt(defender)) - 1);
+
+            if (defenseDiceN >= 2 && attackDiceN >= 2) {
+                if (attackDice.get(1) <= defenseDice.get(1))
+                    armies.set(stateStringToInt(attacker), armies.get(stateStringToInt(attacker)) - 1);
+                else
+                    armies.set(stateStringToInt(defender), armies.get(stateStringToInt(defender)) - 1);
+            }
+
+            if (defenseDiceN >= 3 && attackDiceN >= 3) {
+
+                if (attackDice.get(2) <= defenseDice.get(2))
+                    armies.set(stateStringToInt(attacker), armies.get(stateStringToInt(attacker)) - 1);
+                else
+                    armies.set(stateStringToInt(defender), armies.get(stateStringToInt(defender)) - 1);
+            }
+
+            if(armies.get(stateStringToInt(defender)) == 0)
+            {
+                colors.set(stateStringToInt(defender), currentPlayer.getColor());
+                armies.set(stateStringToInt(defender), attackDiceN);
+                armies.set(stateStringToInt(attacker), armies.get(stateStringToInt(attacker)) - attackDiceN);
+            }
+
+        }
+        else{
+            System.out.println("Invalid attack");
+        }
+    }
 
 }
 
@@ -919,12 +1036,19 @@ class Player {
     private String name;
     private int armies;
 
-    public Player(String name) {
+    private Color color;
+
+    public Player(String name, Color color) {
         this.name = name;
+        this.color = color;
     }
 
     public String getName() {
         return name;
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     public int getArmies() {
