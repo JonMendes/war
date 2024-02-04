@@ -7,6 +7,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -72,7 +73,7 @@ public class WarGame extends Application {
         grid.setHgap(10);
         grid.setVgap(10);
 
-        canvas = new Canvas(1000, 600);
+        canvas = new Canvas(1000, 500);
         grid.add(canvas, 0, 0);
 
         playerInfoLabel = new Label("Current Player: " + currentPlayer.getName() + "\nArmies: 0");
@@ -80,15 +81,58 @@ public class WarGame extends Application {
 
         Button drawButton = new Button("Draw Territories");
         drawButton.setOnAction(event -> drawTerritory());
-
         grid.add(drawButton, 0, 2);
+
+        // TextFields for territories
+        TextField attackingTerritoryField = new TextField();
+        TextField targetTerritoryField = new TextField();
+        TextField armiesToAddField = new TextField();
+        TextField targetTerritoryToAddArmiesField = new TextField(); // New TextField for specifying the territory
+
+        attackingTerritoryField.setPromptText("Attacking Territory");
+        targetTerritoryField.setPromptText("Target Territory");
+        armiesToAddField.setPromptText("Armies to Add");
+        targetTerritoryToAddArmiesField.setPromptText("Territory to Add Armies");
+
+        grid.add(attackingTerritoryField, 0, 3);
+        grid.add(targetTerritoryField, 0, 4);
+
+
+        // Button for confirming attack
+        Button confirmAttackButton = new Button("Confirm Attack");
+        confirmAttackButton.setOnAction(event -> {
+            String attacking = attackingTerritoryField.getText();
+            String target = targetTerritoryField.getText();
+
+            // Use 'attacking' and 'target' as needed (e.g., print or process them)
+            System.out.println("Attacking Territory: " + attacking);
+            System.out.println("Target Territory: " + target);
+        });
+
+        grid.add(confirmAttackButton, 0, 5);
+
+
+        grid.add(targetTerritoryToAddArmiesField, 0, 6);
+        grid.add(armiesToAddField, 0, 7);
+
+        // Button for confirming adding armies
+        Button confirmAddArmiesButton = new Button("Confirm Add Armies");
+        confirmAddArmiesButton.setOnAction(event -> {
+            String territoryToAddArmies = targetTerritoryToAddArmiesField.getText();
+            int armiesToAdd = Integer.parseInt(armiesToAddField.getText());
+
+            // Use 'territoryToAddArmies' and 'armiesToAdd' as needed (e.g., print or process them)
+            System.out.println("Territory to Add Armies: " + territoryToAddArmies);
+            System.out.println("Armies to Add: " + armiesToAdd);
+        });
+
+        grid.add(confirmAddArmiesButton, 0, 8);
 
         // Desenha o mapa inicial
         drawMap();
 
         return new Scene(grid, 1000, 800);
     }
-
     private void drawMap() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
